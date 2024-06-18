@@ -1,25 +1,57 @@
-import random  # Importing the random module to use the choice function for selecting random characters
+import random
 
-print('Welcome To Your Password Generator. It is simple, but effective')
+def generate_passwords(pwdNumber, pwdLength, chars):
+    """
+    Generates a list of passwords based on the specified number and length,
+    using characters from the given character set.
 
-# Defining the set of characters to use in the passwords
-chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@$%^&*1234567890'
+    Parameters:
+    - pwdNumber: int, number of passwords to generate
+    - pwdLength: int, length of each password
+    - chars: str, characters to choose from
 
-# Asking the user how many passwords to generate and converting the input to an integer
-number = input('Amount of passwords to generate: ')
-number = int(number)
+    Returns:
+    - list of generated passwords
+    """
+    passwords = []
+    for _ in range(pwdNumber):
+        # Generate a password of length pwdLength by randomly choosing characters from chars
+        password = ''.join(random.choice(chars) for _ in range(pwdLength))
+        passwords.append(password)
+    return passwords
 
-# Asking the user for the desired length of each password and converting the input to an integer
-length = input('Your password length: ')
-length = int(length)
+def main():
+    """
+    Main function to handle user input and generate passwords.
+    """
+    print('Welcome To Your Password Generator. It is simple, but effective')
 
-print('\nHere are your passwords: ')
+    chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@$%^&*1234567890'
 
-# Generating the specified number of passwords
-for pwd in range(number):
-    passwords = ''  # Initializing an empty string to hold the password
-    for c in range(length):
-        # Adding a randomly chosen character from chars to the password string
-        passwords += random.choice(chars)
-    # Printing the generated password
-    print(passwords)
+    # Input validation for number of passwords to generate
+    while True:
+        try:
+            pwdNumber = int(input('Amount of passwords to generate: '))
+            break
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
+    # Input validation for password length
+    while True:
+        try:
+            pwdLength = int(input('Your password length: '))
+            break
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
+    print('\nHere are your passwords: ')
+
+    # Generate passwords using generate_passwords function
+    passwords = generate_passwords(pwdNumber, pwdLength, chars)
+
+    # Print each generated password
+    for pwd in passwords:
+        print(pwd)
+
+if __name__ == "__main__":
+    main()
